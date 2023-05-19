@@ -67,5 +67,19 @@ if len(meta_url_data) == len(meta_title_data):
 whisper ep0.mp3 --language=Chinese --model large --initial_prompt="以下是普通话的句子。"
 ```
 
+**清理不需要的多格式输出文件**
+
+我们假设你直接从Terminal里面复制文本（而不是输出到文件（或者输出到`.srt`/`.tsv`/`.txt`/`.vtt`/`.json`以外的格式））
+```python
+import os
+file_list_all=os.listdir()
+extension_names=[".srt",".tsv",".txt",".vtt",".json"]
+
+for file in file_list_all:
+    for ext in extension_names:
+        if ext in file:
+            os.remove(file)
+```
+
 large模型占用空间约2G，请注意预留充足SSD空间。
 
