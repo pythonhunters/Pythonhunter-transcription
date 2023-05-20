@@ -81,5 +81,28 @@ for file in file_list_all:
             os.remove(file)
 ```
 
+**VTT转whisper格式**
+```python
+import os
+vtt_list=list(filter(bool,[file if ".vtt" in file else "" for file in os.listdir()]))
+def short_time(t):
+    return t[3:] if t[:3]=="00:" else t
+
+def short_timerange(ts):
+    return " --> ".join([short_time(t) for t in ts.split(" --> ")])
+
+def convert(vtt_list:list):
+    for vtt in vtt_list:
+        vtt_file=open(vtt,"r",encoding="utf-8")
+        vtt_data=list(filter(bool,[i for i in vtt_file.read().split("\n")]))[1:]
+        vtt_file.close()
+        txt_file=open(vtt.replace(".vtt",".txt"),"w",encoding="utf-8")
+        txt_file.write("".join(["["+short_timerange(vtt_data[::2][i])+"] "+vtt_data[1::2][i]+"\n" for i in range(int(len(vtt_data)/2))]))
+        txt_file.close()
+        os.remove(vtt)
+
+convert(vtt_list)
+```
+
 large模型占用空间约2G，请注意预留充足SSD空间。
 
