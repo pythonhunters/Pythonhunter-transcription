@@ -104,9 +104,7 @@ def short_timerange(ts):
 def convert(vtt_list: list):
     for vtt in vtt_list:
         vtt_file = open(vtt, "r", encoding="utf-8")
-        vtt_data = list(
-            filter(bool, [i for i in vtt_file.read().split("\n")])
-        )[1:]
+        vtt_data = list(filter(bool, vtt_file.read().split("\n")))[1:]
         vtt_file.close()
         txt_file = open(vtt.replace(".vtt", ".txt"), "w", encoding="utf-8")
         txt_file.write(
